@@ -1,12 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { Header } from '../../components/Header';
+import { PercentCard } from '../../components/PercentCard';
+// import { Header } from 'react-native/Libraries/NewAppScreen';
+import { Container, Title } from './styles';
 
 // import { styles } from './styles';
 
 export function DashBoard() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>DashBoard</Text>
-    </View>
+    <Container>
+      <Header />
+      <PercentCard icon="arrow-up-right" />
+    </Container>
   );
 }
