@@ -9,12 +9,13 @@ import {
 } from '@expo-google-fonts/nunito';
 
 import theme from './src/theme';
+import { Statistic } from './src/Screens/Statistic';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Nunito_400Regular, Nunito_700Bold });
   return (
     <ThemeProvider theme={theme}>
-      {fontsLoaded ? <DashBoard /> : <ActivityIndicator />}
+      {fontsLoaded ? <Statistic type="PRIMARY" /> : <ActivityIndicator />}
     </ThemeProvider>
   );
 }
