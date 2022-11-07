@@ -10,12 +10,13 @@ import {
 
 import theme from './src/theme';
 import { Statistic } from './src/Screens/Statistic';
+import { NewMeal } from './src/Screens/NewMeal';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Nunito_400Regular, Nunito_700Bold });
   return (
     <ThemeProvider theme={theme}>
-      {fontsLoaded ? <Statistic type="PRIMARY" /> : <ActivityIndicator />}
+      {fontsLoaded ? <NewMeal /> : <ActivityIndicator />}
     </ThemeProvider>
   );
 }
