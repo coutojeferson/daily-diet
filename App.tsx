@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import { DashBoard } from './src/Screens/DashBoard';
+import { Routes } from './src/routes';
 import { ThemeProvider } from 'styled-components/native';
 import {
   useFonts,
@@ -16,7 +16,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({ Nunito_400Regular, Nunito_700Bold });
   return (
     <ThemeProvider theme={theme}>
-      {fontsLoaded ? <NewMeal /> : <ActivityIndicator />}
+      {fontsLoaded ? <Routes /> : <ActivityIndicator />}
     </ThemeProvider>
   );
 }

@@ -6,13 +6,15 @@ import { Container, Form, Title } from './styles';
 
 type Props = {
   text: string;
+  height?: number;
+  width?: number;
 };
 
-export function Input({ text }: Props) {
+export function Input({ text, height, width }: Props) {
   return (
     <Container>
       <Title>{text}</Title>
-      <Form />
+      <Form style={{ width: width, height: height }} />
     </Container>
   );
 }

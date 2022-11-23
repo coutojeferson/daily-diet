@@ -14,9 +14,10 @@ type Props = {
 };
 
 export function MealsForDays({ type = 'PRIMARY' }: Props) {
+  const data = '12.08.22';
   return (
     <Container>
-      <Date>12.08.22</Date>
+      {<Date>{data}</Date>}
       <MealsContainer>
         <MealTime>20:00</MealTime>
         <Divider />

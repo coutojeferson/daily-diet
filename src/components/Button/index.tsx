@@ -4,13 +4,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Container, Title, Icon } from './styles';
 type Props = TouchableOpacityProps & {
   icon?: keyof typeof MaterialIcons.glyphMap;
+  title: string;
 };
 
-export function Button({ icon, ...rest }: Props) {
+export function Button({ icon, title, ...rest }: Props) {
   return (
     <Container {...rest}>
       <Icon name={icon} />
-      <Title>Nova refeição</Title>
+      <Title>{title}</Title>
     </Container>
   );
 }

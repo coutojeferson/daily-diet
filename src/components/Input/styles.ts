@@ -13,9 +13,8 @@ export const Title = styled.Text`
   margin-bottom: 5px;
 `;
 export const Form = styled(TextInput)`
-  /* align-content: stretch; */
   min-height: 56px;
-  max-height: 56px;
+  /* max-height: 56px; */
   flex-direction: row;
   height: 48px;
   border-radius: 6px;

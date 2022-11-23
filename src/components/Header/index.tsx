@@ -15,6 +15,7 @@ import {
   Logo,
   Perfil,
 } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 type Props = {
   back?: boolean;
@@ -24,6 +25,11 @@ type Props = {
 };
 
 export function Header({ icon, back = false, type = 'TERTIARY', text }: Props) {
+  const navigation = useNavigation();
+  function handleGoBack() {
+    navigation.goBack();
+  }
+
   return (
     <Container>
       {!back ? (
@@ -32,7 +38,7 @@ export function Header({ icon, back = false, type = 'TERTIARY', text }: Props) {
           <Perfil source={perfilImg} />
         </>
       ) : (
-        <ContainerHeader>
+        <ContainerHeader onPress={handleGoBack}>
           <Icon name={icon} type={type} />
           <DescriptionHeader>{text}</DescriptionHeader>
         </ContainerHeader>

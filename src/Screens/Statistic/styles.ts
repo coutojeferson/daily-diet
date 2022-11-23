@@ -1,3 +1,5 @@
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import styled from 'styled-components/native';
 
 export type FeedBackStyleCard = 'PRIMARY' | 'SECONDARY';
@@ -6,10 +8,12 @@ type Props = {
   type: FeedBackStyleCard;
 };
 
-export const Container = styled.View.attrs<Props>(({ theme, type }) => ({
-  backgroundColor:
-    type === 'PRIMARY' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT,
-}))`
+export const Container = styled(SafeAreaView).attrs<Props>(
+  ({ theme, type }) => ({
+    backgroundColor:
+      type === 'PRIMARY' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT,
+  }),
+)`
   flex: 1;
 `;
 

@@ -25,7 +25,7 @@ export const Perfil = styled.Image`
   height: 40px;
 `;
 
-export const ContainerHeader = styled.View`
+export const ContainerHeader = styled.TouchableOpacity`
   flex: 1;
   align-items: center;
   flex-direction: row;
@@ -35,6 +35,7 @@ export const DescriptionHeader = styled.Text`
   font-family: ${({ theme }) => theme.FONT_FAMILY.BOLD};
   color: ${({ theme }) => theme.COLORS.GRAY_1};
 `;
+
 export const Icon = styled(MaterialIcons).attrs<Props>(({ type, theme }) => ({
   size: 24,
   color:
