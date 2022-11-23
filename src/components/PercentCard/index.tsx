@@ -5,12 +5,12 @@ import { Feather } from '@expo/vector-icons';
 
 import {
   Container,
+  ContainerIcon,
+  ContainerPersent,
   HeaderIcon,
-  NumberPersent,
-  DescriptionCard,
+  Persent,
+  DescriptionPersent,
   IconTypeStyleProps,
-  ContainerHeaderIcon,
-  ContainerDescription,
 } from './styles';
 
 type Props = TouchableOpacityProps & {
@@ -20,13 +20,13 @@ type Props = TouchableOpacityProps & {
 export function PercentCard({ icon, type = 'PRIMARY', ...rest }: Props) {
   return (
     <Container {...rest} type={type}>
-      <ContainerHeaderIcon>
+      <ContainerIcon>
         <HeaderIcon name={icon} type={type} />
-      </ContainerHeaderIcon>
-      <ContainerDescription>
-        <NumberPersent>90,86%</NumberPersent>
-        <DescriptionCard>das refeitções dentro da dieta</DescriptionCard>
-      </ContainerDescription>
+      </ContainerIcon>
+      <ContainerPersent>
+        <Persent>90,86%</Persent>
+        <DescriptionPersent>das refeições dentro da dieta</DescriptionPersent>
+      </ContainerPersent>
     </Container>
   );
 }
