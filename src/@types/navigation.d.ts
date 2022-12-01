@@ -4,6 +4,8 @@ export declare global {
       dashboard: undefined;
       newmeal: undefined;
       statistic: undefined;
+      success: undefined;
+      unsuccess: undefined;
     }
   }
 }

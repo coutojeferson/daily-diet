@@ -1,20 +1,21 @@
 import React from 'react';
 
-import { View } from 'react-native';
+import { TextInput, TextInputProps } from 'react-native';
 
 import { Container, Form, Title } from './styles';
 
-type Props = {
+type Props = TextInputProps & {
+  inputRef?: React.RefObject<TextInput>;
   text: string;
   height?: number;
   width?: number;
 };
 
-export function Input({ text, height, width }: Props) {
+export function Input({ text, height, width, inputRef, ...rest }: Props) {
   return (
     <Container>
       <Title>{text}</Title>
-      <Form style={{ width: width, height: height }} />
+      <Form ref={inputRef} style={{ width: width, height: height }} {...rest} />
     </Container>
   );
 }
