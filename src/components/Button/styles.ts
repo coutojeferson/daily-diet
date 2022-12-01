@@ -4,7 +4,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 
 export const Container = styled(TouchableOpacity)`
-  width: 100%;
   flex-direction: row;
   padding: 16px;
   align-items: center;

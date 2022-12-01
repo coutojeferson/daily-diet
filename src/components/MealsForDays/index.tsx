@@ -11,17 +11,20 @@ import {
 
 type Props = {
   type?: StatusTypeStyleProps;
+  name: string;
+  date: string;
+  hour: string;
 };
 
-export function MealsForDays({ type = 'PRIMARY' }: Props) {
+export function MealsForDays({ type = 'PRIMARY', name, date, hour }: Props) {
   const data = '12.08.22';
   return (
     <Container>
-      {<Date>{data}</Date>}
+      <Date>{date}</Date>
       <MealsContainer>
-        <MealTime>20:00</MealTime>
+        <MealTime>{hour}</MealTime>
         <Divider />
-        <Meal>X-Tudo</Meal>
+        <Meal>{name}</Meal>
         <Status type={type} />
       </MealsContainer>
     </Container>
