@@ -1,18 +1,25 @@
 import { TouchableOpacityProps, View } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
-import { Container, Title, Icon } from './styles';
+import { Container, Title, Icon, StyleButtonProps } from './styles';
 type Props = TouchableOpacityProps & {
-  icon?: keyof typeof MaterialIcons.glyphMap;
+  icon?: keyof typeof Feather.glyphMap;
   title: string;
   width?: boolean;
+  type?: StyleButtonProps;
 };
 
-export function Button({ icon, title, width = true, ...rest }: Props) {
+export function Button({
+  type = 'PRIMARY',
+  icon,
+  title,
+  width = true,
+  ...rest
+}: Props) {
   return (
-    <Container {...rest} style={width && { width: '100%' }}>
-      <Icon name={icon} />
-      <Title>{title}</Title>
+    <Container type={type} {...rest} style={width && { width: '100%' }}>
+      <Icon name={icon} type={type} />
+      <Title type={type}>{title}</Title>
     </Container>
   );
 }

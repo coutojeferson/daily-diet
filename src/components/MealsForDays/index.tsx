@@ -1,3 +1,4 @@
+import { TouchableOpacityProps } from 'react-native';
 import {
   Container,
   Date,
@@ -9,17 +10,23 @@ import {
   StatusTypeStyleProps,
 } from './styles';
 
-type Props = {
+type Props = TouchableOpacityProps & {
   type?: StatusTypeStyleProps;
   name: string;
   date: string;
   hour: string;
 };
 
-export function MealsForDays({ type = 'PRIMARY', name, date, hour }: Props) {
+export function MealsForDays({
+  type = 'PRIMARY',
+  name,
+  date,
+  hour,
+  ...rest
+}: Props) {
   const data = '12.08.22';
   return (
-    <Container>
+    <Container {...rest}>
       <Date>{date}</Date>
       <MealsContainer>
         <MealTime>{hour}</MealTime>

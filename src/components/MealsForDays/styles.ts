@@ -1,3 +1,4 @@
+import { TouchableOpacity } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
 export type StatusTypeStyleProps = 'PRIMARY' | 'SECONDARY';
@@ -6,7 +7,7 @@ type Props = {
   type: StatusTypeStyleProps;
 };
 
-export const Container = styled.View`
+export const Container = styled(TouchableOpacity)`
   width: 100%;
   margin-bottom: 8px;
 `;

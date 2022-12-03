@@ -9,10 +9,20 @@ import { mealsGetAll } from '../../storage/meal/mealGetAll';
 import { MealStorageDTO } from '../../storage/meal/MealStorageDTO';
 import { FlatList, View } from 'react-native';
 import { mealGetByDate } from '../../storage/meal/mealGetByDate';
+import { storeSelectedMeal } from '../../storage/meal/storeSelectedMeal';
 
 export function DashBoard() {
   const [meals, setMeals] = useState<MealStorageDTO[]>([]);
   const navigation = useNavigation();
+
+  async function handleSelectMeal(meal: MealStorageDTO) {
+    try {
+      await storeSelectedMeal(meal);
+      navigation.navigate('mealSelected');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function handleNewMeal() {
     navigation.navigate('newmeal');
@@ -44,7 +54,6 @@ export function DashBoard() {
 
   useFocusEffect(
     useCallback(() => {
-      console.log('executou');
       fetchMeals();
     }, []),
   );
@@ -55,7 +64,7 @@ export function DashBoard() {
       <PercentCard icon="arrow-up-right" onPress={handleStatistic} />
       <MealSection>
         <Title>Refeições</Title>
-        <Button title="Nova refeição" icon="add" onPress={handleNewMeal} />
+        <Button title="Nova refeição" icon="plus" onPress={handleNewMeal} />
       </MealSection>
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <FlatList
@@ -67,6 +76,7 @@ export function DashBoard() {
               date={item.date}
               name={item.name}
               hour={item.hour}
+              onPress={() => handleSelectMeal(item)}
             />
           )}
           showsVerticalScrollIndicator={false}
