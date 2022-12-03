@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Alert, FlatList, TextInput, View } from 'react-native';
 import { Button } from '../../components/Button';
 import { ButtonDiet } from '../../components/ButtonDiet';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
@@ -18,6 +18,12 @@ import {
   ContainerButton,
   Content,
 } from './styles';
+import { getMealSelected } from '../../storage/meal/getMealSelected';
+import { MealStorageDTO } from '../../storage/meal/MealStorageDTO';
+
+type RouteParams = {
+  mealName: string;
+};
 
 export function NewMeal() {
   const [selected, setSelected] = useState('');
@@ -25,9 +31,20 @@ export function NewMeal() {
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
   const [hour, setHour] = useState('');
+  const [mealToEdit, setMealToEdit] = useState<MealStorageDTO[]>([]);
+  const [isActiveYes, setIsActiveYes] = useState(false);
+  const [isActiveNo, setIsActiveNo] = useState(false);
 
   const newMealInputsRef = useRef<TextInput>(null);
   const navigation = useNavigation();
+  const route = useRoute();
+  const { mealName } = route.params as RouteParams;
+
+  async function handleEditMeal() {
+    const mealsToEdit = await getMealSelected();
+    console.log('Veio para ser editado', mealsToEdit);
+    setMealToEdit(mealsToEdit);
+  }
 
   async function handleNewMeal() {
     if (
@@ -64,58 +81,141 @@ export function NewMeal() {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    if (mealName.length > 0) {
+      handleEditMeal();
+      console.log('Caiu aqui?');
+    }
+  }, []);
+
   return (
     <Container>
       <ContainerHeader>
         <Header back icon="arrow-back" text="Nova refeição" />
       </ContainerHeader>
       <Content>
-        <Form>
-          <Input
-            inputRef={newMealInputsRef}
-            text="Nome"
-            onChangeText={setName}
-            value={name}
-          />
-          <Input
-            inputRef={newMealInputsRef}
-            text="Descrição"
-            height={142}
-            onChangeText={setDescription}
-            value={description}
-          />
-          <ContainerDateTime>
+        {mealToEdit.length > 0 ? (
+          mealToEdit.map((meal) => (
+            <Form>
+              <Input
+                inputRef={newMealInputsRef}
+                text="Nome"
+                onChangeText={setName}
+                value={meal.name}
+              />
+              <Input
+                inputRef={newMealInputsRef}
+                text="Descrição"
+                height={142}
+                onChangeText={setDescription}
+                value={meal.description}
+              />
+              <ContainerDateTime>
+                <Input
+                  inputRef={newMealInputsRef}
+                  text="Data"
+                  width={150}
+                  onChangeText={setDate}
+                  value={meal.date}
+                />
+                <Input
+                  inputRef={newMealInputsRef}
+                  text="Hora"
+                  width={150}
+                  onChangeText={setHour}
+                  value={meal.hour}
+                />
+              </ContainerDateTime>
+            </Form>
+          ))
+        ) : (
+          <Form>
             <Input
               inputRef={newMealInputsRef}
-              text="Data"
-              width={150}
-              onChangeText={setDate}
-              value={date}
+              text="Nome"
+              onChangeText={setName}
+              value={name}
             />
             <Input
               inputRef={newMealInputsRef}
-              text="Hora"
-              width={150}
-              onChangeText={setHour}
-              value={hour}
+              text="Descrição"
+              height={142}
+              onChangeText={setDescription}
+              value={description}
             />
-          </ContainerDateTime>
-        </Form>
+            <ContainerDateTime>
+              <Input
+                inputRef={newMealInputsRef}
+                text="Data"
+                width={150}
+                onChangeText={setDate}
+                value={date}
+              />
+              <Input
+                inputRef={newMealInputsRef}
+                text="Hora"
+                width={150}
+                onChangeText={setHour}
+                value={hour}
+              />
+            </ContainerDateTime>
+          </Form>
+        )}
 
-        <View style={{ flexDirection: 'row' }}>
-          <ButtonDiet
-            type="PRIMARY"
-            title="Sim"
-            isActive={'Sim' === selected}
-            onPress={() => setSelected('Sim')}
-          />
-          <ButtonDiet
-            type="SECONDARY"
-            title="Não"
-            isActive={'Não' === selected}
-            onPress={() => setSelected('Não')}
-          />
-        </View>
+        {mealToEdit.length > 0 ? (
+          mealToEdit.map((meal) => (
+            <View style={{ flexDirection: 'row' }}>
+              <ButtonDiet
+                type="PRIMARY"
+                title="Sim"
+                isActive={
+                  mealToEdit.length > 0 && meal.intoDiet === 'Sim'
+                    ? !isActiveYes
+                    : 'Sim' === selected
+                }
+                onPress={() => {
+                  setSelected('Sim');
+                  setIsActiveNo(!isActiveNo);
+                  setIsActiveYes(!isActiveYes);
+                }}
+              />
+              <ButtonDiet
+                type="SECONDARY"
+                title="Não"
+                isActive={
+                  mealToEdit.length > 0 && meal.intoDiet === 'Não'
+                    ? !isActiveNo
+                    : 'Não' === selected
+                }
+                onPress={() => {
+                  setSelected('Não');
+                  setIsActiveNo(!isActiveNo);
+                  setIsActiveYes(!isActiveYes);
+                }}
+              />
+            </View>
+          ))
+        ) : (
+          <View style={{ flexDirection: 'row' }}>
+            <ButtonDiet
+              type="PRIMARY"
+              title="Sim"
+              isActive={'Sim' === selected}
+              onPress={() => {
+                setSelected('Sim');
+              }}
+            />
+            <ButtonDiet
+              type="SECONDARY"
+              title="Não"
+              isActive={'Não' === selected}
+              onPress={() => {
+                setSelected('Não');
+              }}
+            />
+          </View>
+        )}
 
         <ContainerButton>
           <Button title="Cadastrar refeição" onPress={() => handleNewMeal()} />

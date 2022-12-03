@@ -4,6 +4,7 @@ import { DashBoard } from '../Screens/DashBoard';
 import { NewMeal } from '../Screens/NewMeal';
 import { Statistic } from '../Screens/Statistic';
 import { Unsuccess } from '../Screens/Unsuccess';
+import { MealSelected } from '../Screens/MealSelected';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export function AppRoutes() {
@@ -14,6 +15,7 @@ export function AppRoutes() {
       <Screen name="statistic" component={Statistic} />
       <Screen name="success" component={Success} />
       <Screen name="unsuccess" component={Unsuccess} />
+      <Screen name="mealSelected" component={MealSelected} />
     </Navigator>
   );
 }
