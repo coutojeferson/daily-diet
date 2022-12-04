@@ -25,7 +25,7 @@ export function DashBoard() {
   }
 
   function handleNewMeal() {
-    navigation.navigate('newmeal');
+    navigation.navigate('newmeal', { screen: 'create' });
   }
 
   function handleStatistic() {

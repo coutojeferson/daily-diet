@@ -22,7 +22,7 @@ import { getMealSelected } from '../../storage/meal/getMealSelected';
 import { MealStorageDTO } from '../../storage/meal/MealStorageDTO';
 
 type RouteParams = {
-  mealName: string;
+  screen: string;
 };
 
 export function NewMeal() {
@@ -38,11 +38,18 @@ export function NewMeal() {
   const newMealInputsRef = useRef<TextInput>(null);
   const navigation = useNavigation();
   const route = useRoute();
-  const { mealName } = route.params as RouteParams;
+  const { screen } = route.params as RouteParams;
 
-  async function handleEditMeal() {
+  async function editMeal() {
     const mealsToEdit = await getMealSelected();
     console.log('Veio para ser editado', mealsToEdit);
+    mealsToEdit.map((meal) => {
+      setSelected(meal.intoDiet);
+      setName(meal.name);
+      setDescription(meal.description);
+      setDate(meal.date);
+      setHour(meal.hour);
+    });
     setMealToEdit(mealsToEdit);
   }
 
@@ -81,35 +88,76 @@ export function NewMeal() {
       console.log(error);
     }
   }
+  async function handleEditMeal() {
+    const newMeal = {
+      name,
+      description,
+      date,
+      hour,
+      intoDiet: selected,
+    };
+    try {
+      const meals = await mealsGetAll();
+      const mealSelected = await getMealSelected();
+
+      const equalMeals = meals.filter((meal) => {
+        const meals = meal;
+        mealSelected.filter((mealSelected) => {
+          const editMeal = mealSelected;
+          const teste = meals.description === editMeal.description;
+          return teste;
+          console.log('async', meals);
+          console.log('salvo no estado', editMeal);
+        });
+
+        // meal.name === newMeal.name;
+      });
+      console.log(equalMeals);
+      // const differentMeals = equalMeals.map((meal) => {
+      //   meals.map((allMeals) => {
+      //     const meals = meal.description !== allMeals.description;
+
+      //     return meals;
+      //   });
+      // });
+      // console.log(differentMeals);
+      // await mealCreate(newMeal);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    if (mealName.length > 0) {
-      handleEditMeal();
-      console.log('Caiu aqui?');
+    if (screen === 'edit') {
+      editMeal();
     }
   }, []);
 
   return (
     <Container>
       <ContainerHeader>
-        <Header back icon="arrow-back" text="Nova refeição" />
+        <Header
+          back
+          icon="arrow-back"
+          text={screen === 'edit' ? 'Editar refeição' : 'Nova refeição'}
+        />
       </ContainerHeader>
       <Content>
-        {mealToEdit.length > 0 ? (
+        {screen === 'edit' ? (
           mealToEdit.map((meal) => (
             <Form>
               <Input
                 inputRef={newMealInputsRef}
                 text="Nome"
                 onChangeText={setName}
-                value={meal.name}
+                value={name}
               />
               <Input
                 inputRef={newMealInputsRef}
                 text="Descrição"
                 height={142}
                 onChangeText={setDescription}
-                value={meal.description}
+                value={description}
               />
               <ContainerDateTime>
                 <Input
@@ -117,14 +165,14 @@ export function NewMeal() {
                   text="Data"
                   width={150}
                   onChangeText={setDate}
-                  value={meal.date}
+                  value={date}
                 />
                 <Input
                   inputRef={newMealInputsRef}
                   text="Hora"
                   width={150}
                   onChangeText={setHour}
-                  value={meal.hour}
+                  value={hour}
                 />
               </ContainerDateTime>
             </Form>
@@ -163,14 +211,14 @@ export function NewMeal() {
           </Form>
         )}
 
-        {mealToEdit.length > 0 ? (
+        {screen === 'edit' ? (
           mealToEdit.map((meal) => (
             <View style={{ flexDirection: 'row' }}>
               <ButtonDiet
                 type="PRIMARY"
                 title="Sim"
                 isActive={
-                  mealToEdit.length > 0 && meal.intoDiet === 'Sim'
+                  screen === 'edit' && meal.intoDiet === 'Sim'
                     ? !isActiveYes
                     : 'Sim' === selected
                 }
@@ -184,7 +232,7 @@ export function NewMeal() {
                 type="SECONDARY"
                 title="Não"
                 isActive={
-                  mealToEdit.length > 0 && meal.intoDiet === 'Não'
+                  screen === 'edit' && meal.intoDiet === 'Não'
                     ? !isActiveNo
                     : 'Não' === selected
                 }
@@ -218,7 +266,14 @@ export function NewMeal() {
         )}
 
         <ContainerButton>
-          <Button title="Cadastrar refeição" onPress={() => handleNewMeal()} />
+          <Button
+            title={
+              screen === 'edit' ? 'Salvar alterações' : 'Cadastrar refeição'
+            }
+            onPress={() =>
+              screen === 'edit' ? handleEditMeal() : handleNewMeal()
+            }
+          />
         </ContainerButton>
       </Content>
     </Container>

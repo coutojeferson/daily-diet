@@ -72,7 +72,7 @@ export function MealSelected() {
           <Button
             title="Editar refeição"
             icon="edit-3"
-            onPress={() => navigation.navigate('newmeal', { mealName })}
+            onPress={() => navigation.navigate('newmeal', { screen: 'edit' })}
           />
           <Button title="Excluir refeição" icon="trash-2" type="SECONDARY" />
         </ContainerButton>
