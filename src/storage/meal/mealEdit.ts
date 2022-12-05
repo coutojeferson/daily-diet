@@ -3,7 +3,7 @@ import { MEAL_COLLECTION } from '../storageConfig';
 import { mealsGetAll } from './mealGetAll';
 import { MealStorageDTO } from './MealStorageDTO';
 
-export async function editMeal(
+export async function mealEdit(
   newMeal: MealStorageDTO,
   // oldMeal: MealStorageDTO,
 ) {

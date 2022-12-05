@@ -20,6 +20,7 @@ import {
 } from './styles';
 import { getMealSelected } from '../../storage/meal/getMealSelected';
 import { MealStorageDTO } from '../../storage/meal/MealStorageDTO';
+import { mealEdit } from '../../storage/meal/mealEdit';
 
 type RouteParams = {
   screen: string;
@@ -34,6 +35,8 @@ export function NewMeal() {
   const [mealToEdit, setMealToEdit] = useState<MealStorageDTO[]>([]);
   const [isActiveYes, setIsActiveYes] = useState(false);
   const [isActiveNo, setIsActiveNo] = useState(false);
+  const [meals, setMeals] = useState<MealStorageDTO[]>([]);
+  // const [mealSelected, setMealSelected] = useState();
 
   const newMealInputsRef = useRef<TextInput>(null);
   const navigation = useNavigation();
@@ -88,6 +91,10 @@ export function NewMeal() {
       console.log(error);
     }
   }
+
+  // function insertMealSelected(mealSelected: MealStorageDTO) {
+  //   setMealSelected(mealSelected.description);
+  // }
   async function handleEditMeal() {
     const newMeal = {
       name,
@@ -98,30 +105,33 @@ export function NewMeal() {
     };
     try {
       const meals = await mealsGetAll();
-      const mealSelected = await getMealSelected();
+      const mealSelectedAsync = await getMealSelected();
+      // mealSelectedAsync.map(
+      //   (mealSelected) => console.log(mealSelected.description),
+      //   insertMealSelected(mealSelected),
+      // );
 
-      const equalMeals = meals.filter((meal) => {
-        const meals = meal;
-        mealSelected.filter((mealSelected) => {
-          const editMeal = mealSelected;
-          const teste = meals.description === editMeal.description;
-          return teste;
-          console.log('async', meals);
-          console.log('salvo no estado', editMeal);
+      const differentMeals = meals.filter((meals) => {
+        let meal;
+        mealSelectedAsync.map((mealSelected) => {
+          console.log('Já temos', meals);
+          console.log('Selecionamos', mealSelected);
+          meal = mealSelected;
         });
+        const different = meals.description !== meal.description;
 
-        // meal.name === newMeal.name;
+        console.log('Diferença', different);
+        return different;
       });
-      console.log(equalMeals);
-      // const differentMeals = equalMeals.map((meal) => {
-      //   meals.map((allMeals) => {
-      //     const meals = meal.description !== allMeals.description;
 
-      //     return meals;
-      //   });
-      // });
-      // console.log(differentMeals);
-      // await mealCreate(newMeal);
+      // console.log('Refeições diferentes', differentMeals);
+
+      const editedMeal = [...differentMeals, newMeal];
+      console.log('Oque tem aqui', editedMeal);
+      editedMeal.map((mealEdited) => console.log('Como ficou: ', mealEdited));
+      const mealsDeNovo = await mealsGetAll();
+
+      console.log('Mudou??', mealsDeNovo);
     } catch (error) {
       console.log(error);
     }
