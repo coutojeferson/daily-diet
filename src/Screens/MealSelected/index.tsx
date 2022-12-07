@@ -23,11 +23,13 @@ import {
 import { InfoStatus } from '../../components/InfoStatus';
 import { getMealSelected } from '../../storage/meal/getMealSelected';
 import { MealStorageDTO } from '../../storage/meal/MealStorageDTO';
+import { mealDelete } from '../../storage/meal/mealDelete';
 
 export function MealSelected() {
   const [meal, setMeal] = useState<MealStorageDTO[]>([]);
   const [intoDiet, setIntoDiet] = useState('');
   const [mealName, setMealName] = useState('');
+  const [mealDescription, setMealDescription] = useState('');
   const navigation = useNavigation();
 
   async function searchSelectedMeal() {
@@ -37,8 +39,30 @@ export function MealSelected() {
         meal.map((meal) => {
           setIntoDiet(meal.intoDiet);
           setMealName(meal.name);
+          setMealDescription(meal.description);
           return meal;
         }),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleDeleteMeal() {
+    try {
+      Alert.alert(
+        'Remover',
+        'Deseja realmente excluir o registro da refeição?',
+        [
+          { text: 'Cancelar', style: 'cancel' },
+          {
+            text: 'Sim, excluir',
+            onPress: async () => {
+              await mealDelete();
+              navigation.navigate('dashboard');
+            },
+          },
+        ],
       );
     } catch (error) {
       console.log(error);
@@ -74,7 +98,12 @@ export function MealSelected() {
             icon="edit-3"
             onPress={() => navigation.navigate('newmeal', { screen: 'edit' })}
           />
-          <Button title="Excluir refeição" icon="trash-2" type="SECONDARY" />
+          <Button
+            title="Excluir refeição"
+            icon="trash-2"
+            type="SECONDARY"
+            onPress={() => handleDeleteMeal()}
+          />
         </ContainerButton>
       </Content>
     </Container>
