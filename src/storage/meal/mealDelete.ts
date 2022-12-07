@@ -4,7 +4,7 @@ import { getMealSelected } from './getMealSelected';
 import { mealsGetAll } from './mealGetAll';
 import { MealStorageDTO } from './MealStorageDTO';
 
-export async function mealEdit(newMeal: MealStorageDTO) {
+export async function mealDelete() {
   try {
     const meals = await mealsGetAll();
     const mealSelectedAsync = await getMealSelected();
@@ -18,7 +18,7 @@ export async function mealEdit(newMeal: MealStorageDTO) {
       return different;
     });
 
-    const storage = JSON.stringify([...differentMeals, newMeal]);
+    const storage = JSON.stringify(differentMeals);
 
     await AsyncStorage.setItem(MEAL_COLLECTION, storage);
   } catch (error) {

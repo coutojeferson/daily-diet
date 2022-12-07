@@ -91,10 +91,6 @@ export function NewMeal() {
       console.log(error);
     }
   }
-
-  // function insertMealSelected(mealSelected: MealStorageDTO) {
-  //   setMealSelected(mealSelected.description);
-  // }
   async function handleEditMeal() {
     const newMeal = {
       name,
@@ -128,39 +124,37 @@ export function NewMeal() {
       </ContainerHeader>
       <Content>
         {screen === 'edit' ? (
-          mealToEdit.map((meal) => (
-            <Form>
+          <Form>
+            <Input
+              inputRef={newMealInputsRef}
+              text="Nome"
+              onChangeText={setName}
+              value={name}
+            />
+            <Input
+              inputRef={newMealInputsRef}
+              text="Descrição"
+              height={142}
+              onChangeText={setDescription}
+              value={description}
+            />
+            <ContainerDateTime>
               <Input
                 inputRef={newMealInputsRef}
-                text="Nome"
-                onChangeText={setName}
-                value={name}
+                text="Data"
+                width={150}
+                onChangeText={setDate}
+                value={date}
               />
               <Input
                 inputRef={newMealInputsRef}
-                text="Descrição"
-                height={142}
-                onChangeText={setDescription}
-                value={description}
+                text="Hora"
+                width={150}
+                onChangeText={setHour}
+                value={hour}
               />
-              <ContainerDateTime>
-                <Input
-                  inputRef={newMealInputsRef}
-                  text="Data"
-                  width={150}
-                  onChangeText={setDate}
-                  value={date}
-                />
-                <Input
-                  inputRef={newMealInputsRef}
-                  text="Hora"
-                  width={150}
-                  onChangeText={setHour}
-                  value={hour}
-                />
-              </ContainerDateTime>
-            </Form>
-          ))
+            </ContainerDateTime>
+          </Form>
         ) : (
           <Form>
             <Input
