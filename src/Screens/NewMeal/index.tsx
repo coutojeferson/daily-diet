@@ -104,34 +104,8 @@ export function NewMeal() {
       intoDiet: selected,
     };
     try {
-      const meals = await mealsGetAll();
-      const mealSelectedAsync = await getMealSelected();
-      // mealSelectedAsync.map(
-      //   (mealSelected) => console.log(mealSelected.description),
-      //   insertMealSelected(mealSelected),
-      // );
-
-      const differentMeals = meals.filter((meals) => {
-        let meal;
-        mealSelectedAsync.map((mealSelected) => {
-          console.log('Já temos', meals);
-          console.log('Selecionamos', mealSelected);
-          meal = mealSelected;
-        });
-        const different = meals.description !== meal.description;
-
-        console.log('Diferença', different);
-        return different;
-      });
-
-      // console.log('Refeições diferentes', differentMeals);
-
-      const editedMeal = [...differentMeals, newMeal];
-      console.log('Oque tem aqui', editedMeal);
-      editedMeal.map((mealEdited) => console.log('Como ficou: ', mealEdited));
-      const mealsDeNovo = await mealsGetAll();
-
-      console.log('Mudou??', mealsDeNovo);
+      await mealEdit(newMeal);
+      navigation.navigate('dashboard');
     } catch (error) {
       console.log(error);
     }
