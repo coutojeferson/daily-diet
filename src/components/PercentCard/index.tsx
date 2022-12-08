@@ -16,15 +16,16 @@ import {
 type Props = TouchableOpacityProps & {
   icon: keyof typeof Feather.glyphMap;
   type?: IconTypeStyleProps;
+  value: number;
 };
-export function PercentCard({ icon, type = 'PRIMARY', ...rest }: Props) {
+export function PercentCard({ icon, type = 'PRIMARY', value, ...rest }: Props) {
   return (
     <Container {...rest} type={type}>
       <ContainerIcon>
         <HeaderIcon name={icon} type={type} />
       </ContainerIcon>
       <ContainerPersent>
-        <Persent>90,86%</Persent>
+        <Persent>{value}%</Persent>
         <DescriptionPersent>das refeições dentro da dieta</DescriptionPersent>
       </ContainerPersent>
     </Container>
