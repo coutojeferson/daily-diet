@@ -13,6 +13,7 @@ import { storeSelectedMeal } from '../../storage/meal/storeSelectedMeal';
 
 export function DashBoard() {
   const [meals, setMeals] = useState<MealStorageDTO[]>([]);
+  const [intoDiet, setIntoDiet] = useState(0);
   const navigation = useNavigation();
 
   async function handleSelectMeal(meal: MealStorageDTO) {
@@ -37,20 +38,20 @@ export function DashBoard() {
       const data = await mealsGetAll();
       console.log(data);
       setMeals(data);
-      // fetchMealsByDate();
+      const intoDiet = data.filter((meal) => meal.intoDiet === 'Sim');
+      percentIntoDiet(data.length, intoDiet.length);
     } catch (error) {
       console.log(error);
     }
   }
 
-  // async function fetchMealsByDate() {
-  //   console.log(meals, 'Trouxe??');
-  //   try {
-  //     const mealsByDate = await mealGetByDate(mea)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  function percentIntoDiet(total: number, intoDiet: number) {
+    const percent = (total * 100) / total;
+
+    const percentIntoDiet = (intoDiet * 100) / total;
+
+    setIntoDiet(Math.round(percentIntoDiet));
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -61,7 +62,12 @@ export function DashBoard() {
   return (
     <Container>
       <Header />
-      <PercentCard icon="arrow-up-right" onPress={handleStatistic} />
+      <PercentCard
+        icon="arrow-up-right"
+        onPress={handleStatistic}
+        value={intoDiet}
+        type={intoDiet >= 50 ? 'PRIMARY' : 'SECONDARY'}
+      />
       <MealSection>
         <Title>Refeições</Title>
         <Button title="Nova refeição" icon="plus" onPress={handleNewMeal} />
