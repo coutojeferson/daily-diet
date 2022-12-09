@@ -2,7 +2,7 @@ import { StatusTypeStyleProps } from '../MealsForDays/styles';
 import { Container, Total, TotalDescription } from './styles';
 
 type Props = {
-  number: number;
+  number?: number;
   description: string;
   type: StatusTypeStyleProps;
 };

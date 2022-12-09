@@ -18,9 +18,8 @@ export const Container = styled(SafeAreaView).attrs<Props>(
 `;
 
 export const ContainerHeader = styled.View`
-  flex: 1;
+  /* flex: 1; */
   padding: 24px;
-  /* padding-top: 32px; */
 `;
 export const ContainerHeaderInfo = styled.View`
   align-items: center;
