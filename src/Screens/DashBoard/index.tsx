@@ -10,10 +10,12 @@ import { MealStorageDTO } from '../../storage/meal/MealStorageDTO';
 import { FlatList, View } from 'react-native';
 import { mealGetByDate } from '../../storage/meal/mealGetByDate';
 import { storeSelectedMeal } from '../../storage/meal/storeSelectedMeal';
+import { mealStatistics } from '../../storage/meal/mealStatistics';
+import { getStatistics } from '../../storage/meal/getStatistics';
 
 export function DashBoard() {
   const [meals, setMeals] = useState<MealStorageDTO[]>([]);
-  const [intoDiet, setIntoDiet] = useState(0);
+  const [intoDietPercent, setIntoDietPercent] = useState(0);
   const navigation = useNavigation();
 
   async function handleSelectMeal(meal: MealStorageDTO) {
@@ -39,18 +41,46 @@ export function DashBoard() {
       console.log(data);
       setMeals(data);
       const intoDiet = data.filter((meal) => meal.intoDiet === 'Sim');
+      const offDiet = data.filter((meal) => meal.intoDiet === 'Não');
       percentIntoDiet(data.length, intoDiet.length);
+      mealsStatisticCreate(
+        intoDiet.length,
+        offDiet.length,
+        intoDietPercent,
+        data.length,
+      );
     } catch (error) {
       console.log(error);
     }
   }
 
   function percentIntoDiet(total: number, intoDiet: number) {
-    const percent = (total * 100) / total;
-
     const percentIntoDiet = (intoDiet * 100) / total;
 
-    setIntoDiet(Math.round(percentIntoDiet));
+    setIntoDietPercent(Math.round(percentIntoDiet));
+  }
+
+  async function mealsStatisticCreate(
+    intoDiet: number,
+    offDiet: number,
+    percent: number,
+    total: number,
+  ) {
+    const newStatistic = {
+      percent,
+      bestSequence: total,
+      total,
+      intoDiet,
+      offDiet,
+    };
+    try {
+      await mealStatistics(newStatistic);
+      const teste = await getStatistics();
+
+      console.log('verificar', teste);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useFocusEffect(
@@ -65,8 +95,8 @@ export function DashBoard() {
       <PercentCard
         icon="arrow-up-right"
         onPress={handleStatistic}
-        value={intoDiet}
-        type={intoDiet >= 50 ? 'PRIMARY' : 'SECONDARY'}
+        value={intoDietPercent}
+        type={intoDietPercent >= 50 ? 'PRIMARY' : 'SECONDARY'}
       />
       <MealSection>
         <Title>Refeições</Title>

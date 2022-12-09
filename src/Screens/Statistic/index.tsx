@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react';
 import { BestSequence } from '../../components/BestSequence';
 import { CardMealsFeedback } from '../../components/CardMealsFeedback';
 import { FeedBackStyleCard } from '../../components/CardMealsFeedback/styles';
 import { Header } from '../../components/Header';
+import { getStatistics } from '../../storage/meal/getStatistics';
+import { StatisticMealStorageDTO } from '../../storage/meal/StatisticMealStorageDTO';
 import {
   Container,
   ContainerBody,
@@ -12,35 +15,57 @@ import {
   Persent,
   Title,
 } from './styles';
+export function Statistic() {
+  const [statistic, setStatistics] = useState<StatisticMealStorageDTO>({});
+  async function fetchStatistics() {
+    try {
+      const statistic = await getStatistics();
 
-type Props = {
-  type: FeedBackStyleCard;
-};
-export function Statistic({ type = 'PRIMARY' }: Props) {
+      statistic.map((statistic) => {
+        setStatistics(statistic);
+
+        console.log('Estatisticas', statistic);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchStatistics();
+  }, []);
+
   return (
-    <Container type={type}>
+    <Container type={statistic?.percent >= 50 ? 'PRIMARY' : 'SECONDARY'}>
       <ContainerHeader>
         <ContainerHeaderInfo>
-          <Header back icon="arrow-back" type={type} />
-          <Persent>90.86%</Persent>
+          <Header
+            back
+            icon="arrow-back"
+            type={statistic?.percent >= 50 ? 'PRIMARY' : 'SECONDARY'}
+          />
+          <Persent>{statistic?.percent}%</Persent>
           <DescriptionPersent>das refeições dentro da dieta</DescriptionPersent>
         </ContainerHeaderInfo>
       </ContainerHeader>
       <ContainerBody>
         <Title>Estatísticas gerais</Title>
         <BestSequence
-          number={22}
+          number={statistic?.bestSequence}
           description="melhor sequência de pratos dentro da dieta"
         />
-        <BestSequence number={109} description="refeições registradas" />
+        <BestSequence
+          number={statistic?.total}
+          description="refeições registradas"
+        />
         <ContainerCardFeedback>
           <CardMealsFeedback
-            number={99}
+            number={statistic?.intoDiet}
             description="refeições dentro da dieta"
             type="PRIMARY"
           />
           <CardMealsFeedback
-            number={10}
+            number={statistic?.offDiet}
             description="refeições fora da dieta"
             type="SECONDARY"
           />
