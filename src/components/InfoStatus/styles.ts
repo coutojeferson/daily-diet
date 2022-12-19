@@ -20,12 +20,11 @@ export const Title = styled.Text`
   font-size: ${({ theme }) => theme.FONT_SIZE.SM}px;
   font-family: ${({ theme }) => theme.FONT_FAMILY.REGULAR};
 `;
-export const Status = styled.View.attrs<Props>(({ theme, type }) => ({
+export const Status = styled.View<Props>(({ theme, type }) => ({
   backgroundColor:
     type === 'PRIMARY' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
   marginRight: 8,
-}))`
-  width: 8px;
-  height: 8px;
-  border-radius: 7px;
-`;
+  width: 8,
+  height: 8,
+  borderRadius: 7,
+}));

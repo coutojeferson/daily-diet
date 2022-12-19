@@ -16,13 +16,17 @@ import {
   Title,
 } from './styles';
 export function Statistic() {
-  const [statistic, setStatistics] = useState<StatisticMealStorageDTO>({});
+  const [statistic, setStatistics] = useState<StatisticMealStorageDTO>();
   async function fetchStatistics() {
     try {
       const statistic = await getStatistics();
 
       statistic.map((statistic) => {
-        setStatistics(statistic);
+        if (statistic) {
+          setStatistics(statistic);
+        } else {
+          return;
+        }
 
         console.log('Estatisticas', statistic);
       });
@@ -36,13 +40,23 @@ export function Statistic() {
   }, []);
 
   return (
-    <Container type={statistic?.percent >= 50 ? 'PRIMARY' : 'SECONDARY'}>
+    <Container
+      type={
+        statistic?.percent !== undefined && statistic.percent >= 50
+          ? 'PRIMARY'
+          : 'SECONDARY'
+      }
+    >
       <ContainerHeader>
         <ContainerHeaderInfo>
           <Header
             back
             icon="arrow-back"
-            type={statistic?.percent >= 50 ? 'PRIMARY' : 'SECONDARY'}
+            type={
+              statistic?.percent !== undefined && statistic.percent >= 50
+                ? 'PRIMARY'
+                : 'SECONDARY'
+            }
           />
           <Persent>{statistic?.percent}%</Persent>
           <DescriptionPersent>das refeições dentro da dieta</DescriptionPersent>

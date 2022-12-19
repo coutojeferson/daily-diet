@@ -1,10 +1,14 @@
-import { StatusTypeStyleProps } from '../MealsForDays/styles';
-import { Container, Total, TotalDescription } from './styles';
+import {
+  Container,
+  FeedBackStyleCard,
+  Total,
+  TotalDescription,
+} from './styles';
 
 type Props = {
   number?: number;
   description: string;
-  type: StatusTypeStyleProps;
+  type: FeedBackStyleCard;
 };
 export function CardMealsFeedback({
   type = 'PRIMARY',
