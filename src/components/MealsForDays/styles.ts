@@ -57,11 +57,10 @@ export const Meal = styled.Text`
   flex: 1;
 `;
 
-export const Status = styled.View.attrs<Props>(({ theme, type }) => ({
+export const Status = styled.View<Props>(({ theme, type }) => ({
   backgroundColor:
     type === 'PRIMARY' ? theme.COLORS.GREEN_MID : theme.COLORS.RED_MID,
-}))`
-  width: 14px;
-  height: 14px;
-  border-radius: 7px;
-`;
+  width: 14,
+  heigth: 14,
+  borderRadius: 7,
+}));

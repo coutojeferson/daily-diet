@@ -2,11 +2,11 @@ import React from 'react';
 
 import { View } from 'react-native';
 
+import { Container, Status, StatusStyleProps, Title } from './styles';
+
 type Props = {
   type: StatusStyleProps;
 };
-
-import { Container, Status, StatusStyleProps, Title } from './styles';
 
 export function InfoStatus({ type }: Props) {
   return (

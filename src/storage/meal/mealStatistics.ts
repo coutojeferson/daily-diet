@@ -5,7 +5,6 @@ import { StatisticMealStorageDTO } from './StatisticMealStorageDTO';
 
 export async function mealStatistics(newStatistic: StatisticMealStorageDTO) {
   try {
-    const storedMeals = await mealsGetAll();
     const storage = JSON.stringify([newStatistic]);
 
     await AsyncStorage.setItem(MEAL_STATISTIC, storage);

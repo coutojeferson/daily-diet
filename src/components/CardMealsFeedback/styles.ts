@@ -6,17 +6,16 @@ type Props = {
   type: FeedBackStyleCard;
 };
 
-export const Container = styled.View.attrs<Props>(({ theme, type }) => ({
+export const Container = styled.View<Props>(({ theme, type }) => ({
   backgroundColor:
     type === 'PRIMARY' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT,
-}))`
-  max-width: 55%;
-  padding: 16px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  margin-bottom: 12px;
-`;
+  maxWidth: '55%',
+  padding: 16,
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 8,
+  marginBottom: 12,
+}));
 
 export const Total = styled.Text`
   font-size: ${({ theme }) => theme.FONT_SIZE.XL}px;

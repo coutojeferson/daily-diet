@@ -8,17 +8,13 @@ type Props = {
   type: FeedBackStyleCard;
 };
 
-export const Container = styled(SafeAreaView).attrs<Props>(
-  ({ theme, type }) => ({
-    backgroundColor:
-      type === 'PRIMARY' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT,
-  }),
-)`
-  flex: 1;
-`;
+export const Container = styled(SafeAreaView)<Props>(({ theme, type }) => ({
+  backgroundColor:
+    type === 'PRIMARY' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT,
+  flex: 1,
+}));
 
 export const ContainerHeader = styled.View`
-  /* flex: 1; */
   padding: 24px;
 `;
 export const ContainerHeaderInfo = styled.View`
